@@ -299,7 +299,7 @@ export const uploadImage = async (imageUri: string, options?: {
                         'Authorization': `Bearer ${await AsyncStorage.getItem('token')}`
                     },
                 },
-                (progress) => {
+                (progress: any) => {
                     options.onProgress?.(progress.totalByteSent / progress.totalBytesExpectedToSend);
                 }
             );
@@ -320,7 +320,7 @@ export const uploadImage = async (imageUri: string, options?: {
             // Return the URL or ID of the uploaded image
             return response.data.imageUrl || response.data.image || response.data.url;
         }
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error uploading image:', error);
 
         // Enhanced error message based on the error type
