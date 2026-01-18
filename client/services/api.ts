@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
 // import * as mime from 'react-native-mime-types'; // Causing TypeError: property is not configurable in SDK 54
 
-export const API_BASE_URL = 'https://467dd67f85bd.ngrok-free.app';
+export const API_BASE_URL = 'https://daa2d224a2b4.ngrok-free.app';
 
 // Set up a basic configuration for making API requests
 const api = axios.create({
