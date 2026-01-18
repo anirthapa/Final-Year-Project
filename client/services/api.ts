@@ -1,9 +1,9 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
-import * as mime from 'react-native-mime-types';
+// import * as mime from 'react-native-mime-types'; // Causing TypeError: property is not configurable in SDK 54
 
-export const API_BASE_URL = 'https://11cf-202-51-86-227.ngrok-free.app';
+export const API_BASE_URL = 'https://e6dc-202-51-86-227.ngrok-free.app';
 
 // Set up a basic configuration for making API requests
 const api = axios.create({
@@ -13,22 +13,22 @@ const api = axios.create({
     },
 });
 +
-// Before sending a request, add the user's token if they are logged in
-api.interceptors.request.use(async (config) => {
-    const token = await AsyncStorage.getItem('token');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
+    // Before sending a request, add the user's token if they are logged in
+    api.interceptors.request.use(async (config) => {
+        const token = await AsyncStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
 
-    // Don't override Content-Type if it's already set (important for FormData)
-    if (!config.headers['Content-Type'] && !(config.data instanceof FormData)) {
-        config.headers['Content-Type'] = 'application/json';
-    }
+        // Don't override Content-Type if it's already set (important for FormData)
+        if (!config.headers['Content-Type'] && !(config.data instanceof FormData)) {
+            config.headers['Content-Type'] = 'application/json';
+        }
 
-    return config;
-}, (error) => {
-    return Promise.reject(error);
-});
+        return config;
+    }, (error) => {
+        return Promise.reject(error);
+    });
 
 // After receiving a response, check for errors and handle them
 api.interceptors.response.use(
@@ -194,12 +194,22 @@ const getFileInfo = async (uri: string) => {
         try {
             const fileInfo = await FileSystem.getInfoAsync(uri);
             if (fileInfo.exists) {
-                // Use mime library to detect mime type from extension if possible
-                if (mime && fileName.includes('.')) {
+                // Simple extension checking instead of using the problematic library
+                if (fileName.includes('.')) {
                     const extension = fileName.split('.').pop()?.toLowerCase();
-                    const detectedType = mime.lookup(extension || '');
-                    if (detectedType) {
-                        fileType = detectedType;
+                    // Basic mime type mapping
+                    const mimeTypes: { [key: string]: string } = {
+                        'jpg': 'image/jpeg',
+                        'jpeg': 'image/jpeg',
+                        'png': 'image/png',
+                        'gif': 'image/gif',
+                        'webp': 'image/webp',
+                        'pdf': 'application/pdf',
+                        'doc': 'application/msword',
+                        'mp4': 'video/mp4'
+                    };
+                    if (extension && mimeTypes[extension]) {
+                        fileType = mimeTypes[extension];
                     }
                 }
 
@@ -209,7 +219,8 @@ const getFileInfo = async (uri: string) => {
                 } else if (fileName.match(/\.(mov|mp4|avi|mkv|webm)$/i)) {
                     fileType = `video/${fileName.split('.').pop()?.toLowerCase() || 'mp4'}`;
                 } else if (fileName.match(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx)$/i)) {
-                    fileType = mime.lookup(fileName) || 'application/octet-stream';
+                    // fileType = mime.lookup(fileName) || 'application/octet-stream';
+                    fileType = 'application/octet-stream';
                 }
             }
         } catch (error) {

@@ -562,7 +562,6 @@ cron.schedule('0 10,12,14,16,18,20 * * *', async () => {
 
             // If not completed and in quiet hours, don't send
             const inQuietHours = await reminderService.isInQuietHours(habit.user_id, now);
-
             // If not completed, scheduled, and not in quiet hours, send an urgent reminder
             if (!isCompletedToday && !inQuietHours) {
                 // Check if we already sent a reminder in the last 2 hours
