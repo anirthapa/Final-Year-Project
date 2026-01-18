@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
 // import * as mime from 'react-native-mime-types'; // Causing TypeError: property is not configurable in SDK 54
 
-export const API_BASE_URL = 'https://e6dc-202-51-86-227.ngrok-free.app';
+export const API_BASE_URL = 'https://467dd67f85bd.ngrok-free.app';
 
 // Set up a basic configuration for making API requests
 const api = axios.create({
@@ -265,7 +265,7 @@ export const uploadImage = async (imageUri: string, options?: {
         const fileInfo = await getFileInfo(imageUri);
 
         // Append the file to form data
-        formData.append(fieldName, fileInfo);
+        formData.append(fieldName, fileInfo as any);
 
         // Add any additional fields
         if (options?.additionalFields) {
@@ -382,4 +382,4 @@ export const uploadMultipleImages = async (imageUris: string[], options?: {
 };
 
 export default api; // Export the configured API instance
-export { API_BASE_URL };
+// export { API_BASE_URL }; // Removed to prevent re-declaration error
