@@ -293,14 +293,7 @@ const Index = () => {
                             </Text>
                         </View>
 
-                        <TouchableOpacity
-                            onPress={navigateToManageHabits}
-                            className="bg-primary-500 px-3 py-2 rounded-lg flex-row items-center"
-                            style={{ elevation: 2 }}
-                        >
-                            <Settings size={18} color="white" />
-                            <Text className="ml-2 text-white font-montserrat-medium">Manage Habits</Text>
-                        </TouchableOpacity>
+
                     </View>
 
                     {/* Progress Summary Card */}
@@ -369,7 +362,7 @@ const Index = () => {
                             </Text>
                             <TouchableOpacity
                                 className="flex-row items-center"
-                                onPress={() => router.push('(notification)/test')}
+                                onPress={() => router.push('habits')}
                             >
                                 <Text className="text-primary-500 font-montserrat-medium text-sm mr-1">
                                     View All
@@ -532,7 +525,7 @@ const Index = () => {
                                 </Text>
                                 <TouchableOpacity
                                     className="flex-row items-center"
-                                    onPress={() => router.push('/categories')}
+
                                 >
                                     <Text className="text-primary-500 font-montserrat-medium text-sm mr-1">
                                         View All
@@ -563,10 +556,7 @@ const Index = () => {
                                             key={domain}
                                             className={`mr-3 p-4 rounded-xl shadow-sm ${isDark ? 'bg-gray-800' : 'bg-white'} w-40`}
                                             style={{ elevation: 2 }}
-                                            onPress={() => router.push({
-                                                pathname: '/domain/[name]',
-                                                params: { name: domain }
-                                            })}
+
                                         >
                                             <View className="flex-row justify-between items-center mb-2">
                                                 <View className={`p-2.5 rounded-full w-8 h-8 items-center justify-center`}
@@ -593,15 +583,7 @@ const Index = () => {
                                             <Text className={`text-base font-montserrat-bold ${isDark ? 'text-white' : 'text-gray-900'}`} numberOfLines={1}>
                                                 {domain}
                                             </Text>
-                                            <Text className={`text-xs font-montserrat-medium ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-                                                {domainHabits.length} habit{domainHabits.length !== 1 ? 's' : ''}
-                                            </Text>
 
-                                            {domainTodayHabits.length > 0 && (
-                                                <Text className={`text-xs font-montserrat-medium mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                                                    {completedCount}/{domainTodayHabits.length} today
-                                                </Text>
-                                            )}
                                         </TouchableOpacity>
                                     );
                                 })}
